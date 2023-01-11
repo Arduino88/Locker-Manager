@@ -1,24 +1,26 @@
 from tkinter import *
 from tkinter import ttk
-import os
+from tkinter import messagebox
+#import os
 import sv_ttk
 
 memoryList = []
 trimmedMemoryList = []
 
-desktop = os.path.join(os.path.join(os.path.expanduser("~")), "Desktop")
-masterListLocation = desktop + "\LockerManager\masterlist.txt"
+#desktop = os.path.join(os.path.join(os.path.expanduser("~")), "Desktop")
+#masterListLocation = desktop + "\LockerManager\masterlist.txt"
 
 #BUTTON FUNCTIONS
 def readMasterList():
-    with open(masterListLocation) as masterFile:
+    with open("masterlist.txt") as masterFile:
         for line in masterFile:
             memoryList.append(line)
     for sub in memoryList:
         trimmedMemoryList.append(sub.replace("\n", ""))
+    print(trimmedMemoryList)
 
 def saveList():
-    with open(masterListLocation, "w") as masterFile:
+    with open("masterlist.txt", "w") as masterFile:
         masterFile.write("\n".join(trimmedMemoryList))
 
 def updateLockerList(*args):
@@ -44,11 +46,87 @@ def updateLockerList(*args):
     lockerText7.set(trimmedMemoryList[lockerNumber7.get()])
     lockerText8.set(trimmedMemoryList[lockerNumber8.get()])
     lockerText9.set(trimmedMemoryList[lockerNumber9.get()])
+
+    if lockerText0.get() == "empty":
+        lblLocker0.config(font="normal", foreground="white")
+        lblLockerNumber0.config(font="normal", foreground="white")
+    else:
+        lblLocker0.config(font="bold", foreground="#90E0EF")
+        lblLockerNumber0.config(font="bold", foreground="#90E0EF")
+
+    if lockerText1.get() == "empty":
+        lblLocker1.config(font="normal", foreground="white")
+        lblLockerNumber1.config(font="normal", foreground="white")
+    else:
+        lblLocker1.config(font="bold", foreground="#90E0EF")
+        lblLockerNumber1.config(font="bold", foreground="#90E0EF")
+
+    if lockerText2.get() == "empty":
+        lblLocker2.config(font="normal", foreground="white")
+        lblLockerNumber2.config(font="normal", foreground="white")
+    else:
+        lblLocker2.config(font="bold", foreground="#90E0EF")
+        lblLockerNumber2.config(font="bold", foreground="#90E0EF")
+
+    if lockerText3.get() == "empty":
+        lblLocker3.config(font="normal", foreground="white")
+        lblLockerNumber3.config(font="normal", foreground="white")
+    else:
+        lblLocker3.config(font="bold", foreground="#90E0EF")
+        lblLockerNumber3.config(font="bold", foreground="#90E0EF")
+
+    if lockerText4.get() == "empty":
+        lblLocker4.config(font="normal", foreground="white")
+        lblLockerNumber4.config(font="normal", foreground="white")
+    else:
+        lblLocker4.config(font="bold", foreground="#90E0EF")
+        lblLockerNumber4.config(font="bold", foreground="#90E0EF")
+
+    if lockerText5.get() == "empty":
+        lblLocker5.config(font="normal", foreground="white")
+        lblLockerNumber5.config(font="normal", foreground="white")
+    else:
+        lblLocker5.config(font="bold", foreground="#90E0EF")
+        lblLockerNumber5.config(font="bold", foreground="#90E0EF")
+
+    if lockerText6.get() == "empty":
+        lblLocker6.config(font="normal", foreground="white")
+        lblLockerNumber6.config(font="normal", foreground="white")
+    else:
+        lblLocker6.config(font="bold", foreground="#90E0EF")
+        lblLockerNumber6.config(font="bold", foreground="#90E0EF")
+
+    if lockerText7.get() == "empty":
+        lblLocker7.config(font="normal", foreground="white")
+        lblLockerNumber7.config(font="normal", foreground="white")
+    else:
+        lblLocker7.config(font="bold", foreground="#90E0EF")
+        lblLockerNumber7.config(font="bold", foreground="#90E0EF")
+
+    if lockerText8.get() == "empty":
+        lblLocker8.config(font="normal", foreground="white")
+        lblLockerNumber8.config(font="normal", foreground="white")
+    else:
+        lblLocker8.config(font="bold", foreground="#90E0EF")
+        lblLockerNumber8.config(font="bold", foreground="#90E0EF")
+
+    if lockerText9.get() == "empty":
+        lblLocker9.config(font="normal", foreground="white")
+        lblLockerNumber9.config(font="normal", foreground="white")
+    else:
+        lblLocker9.config(font="bold", foreground="#90E0EF")
+        lblLockerNumber9.config(font="bold", foreground="#90E0EF")
+
     root.after(100, updateLockerList)
 
 def addStudent(*args):
     try:
-        trimmedMemoryList[int(entryLocker.get())] = studentName.get()
+        tempName = StringVar()
+        tempName = trimmedMemoryList[int(entryLocker.get())]
+        if tempName == "empty":
+            trimmedMemoryList[int(entryLocker.get())] = studentName.get()
+        else:
+            messagebox.showerror(title="Attempted Data Overwrite", message=("Locker already assigned to: " + tempName), icon="error", detail=("Clear locker " + entryLocker.get() + " before assigning"))
         saveList()
     except ValueError:
         pass
@@ -114,7 +192,7 @@ btnClearLocker = ttk.Button(clearLockerLabelFrame, text="CLEAR", command=removeS
 
 #BROWSE LOCKER FRAMES
 browseLockerListFrame = ttk.Frame(browseLockerLabelFrame, borderwidth=0.5, relief="sunken")
-lblLockerListHeader = ttk.Label(browseLockerListFrame, text="Lockers", font=("Heading", 16))
+lblLockerListHeader = ttk.Label(browseLockerListFrame, text="Locker Preview", font=("Heading", 16))
 lblLocker0 = ttk.Label(browseLockerListFrame, textvariable=lockerText0)
 lblLocker1 = ttk.Label(browseLockerListFrame, textvariable=lockerText1)
 lblLocker2 = ttk.Label(browseLockerListFrame, textvariable=lockerText2)
@@ -149,7 +227,7 @@ spxTens = ttk.Spinbox(browseLockerLabelFrame, from_=0, to=90, increment=10, text
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S), ipadx=5, ipady=5)
 assignLockerLabelFrame.grid(column=0, row=0, sticky=(N, W, E, S), ipadx=5, ipady=5)
 clearLockerLabelFrame.grid(column=1, row=0, sticky=(N, W, E, S), ipadx=5, ipady=5)
-browseLockerLabelFrame.grid(column=0, row=1, columnspan=2, sticky=(N, W, E, S), ipadx=5, ipady=5)
+browseLockerLabelFrame.grid(column=0, row=1, columnspan=2, sticky=(N, W, E, S), ipadx=5)
 
 #ASSIGN LOCKER LABELFRAME GRID FORMATTING
 lblStudentName.grid(column=0, row=0)
