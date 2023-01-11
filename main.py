@@ -1,25 +1,30 @@
 from tkinter import *
 from tkinter import ttk
+import os
 import sv_ttk
 
 memoryList = []
 trimmedMemoryList = []
 
+desktop = os.path.join(os.path.join(os.path.expanduser("~")), "Desktop")
+masterListLocation = desktop + "\LockerManager\masterlist.txt"
+
 #BUTTON FUNCTIONS
 def readMasterList():
-    with open("masterlist.txt") as masterFile:
+    with open(masterListLocation) as masterFile:
         for line in masterFile:
             memoryList.append(line)
     for sub in memoryList:
         trimmedMemoryList.append(sub.replace("\n", ""))
-    print(trimmedMemoryList)
 
 def saveList():
-    with open("masterlist.txt", "w") as masterFile:
+    with open(masterListLocation, "w") as masterFile:
         masterFile.write("\n".join(trimmedMemoryList))
 
 def updateLockerList(*args):
     lockerNumber0.set(sectionThousands.get() + sectionHundreds.get() + sectionTens.get())
+    if lockerNumber0.get() == 0:
+        lockerNumber0.set(1)
     lockerNumber1.set(lockerNumber0.get() + 1)
     lockerNumber2.set(lockerNumber0.get() + 2)
     lockerNumber3.set(lockerNumber0.get() + 3)
