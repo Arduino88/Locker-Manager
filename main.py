@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
-#import os
+# import os
 import sv_ttk
 
 memoryList = []
